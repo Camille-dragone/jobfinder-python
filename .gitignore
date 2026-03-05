@@ -1,0 +1,18 @@
+# Python bytecode/cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python tool caches
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.hypothesis/
+.pyre/
+
+# Virtual env / build caches
+.tox/
+.nox/
+
+# Local env files
+.env

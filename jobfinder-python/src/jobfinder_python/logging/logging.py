@@ -2,8 +2,8 @@ import logging
 
 # Inspired from : https://www.youtube.com/watch?v=9L77QExPmI0&ab_channel=mCoding
 
-logger = logging.getLogger("jobfinder")
-api_logger = logger.getChild("api")
+app_logger = logging.getLogger("jobfinder")
+api_logger = app_logger.getChild("api")
 
 
 logging_config = {
