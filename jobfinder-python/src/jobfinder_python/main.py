@@ -9,6 +9,7 @@ import logging
 from logging.handlers import QueueHandler
 import atexit
 from jobfinder_python.logging.logging import api_logger, logging_config
+from jobfinder_python.api import api
 
 load_dotenv()
 
@@ -47,9 +48,7 @@ def hello():
     return "Hello from FastAPI !!!"
 
 
-# app.include_router(router=ms_api.router, prefix="/api-python")
-# app.include_router(router=ai_api.router, prefix="/api-python")
-# app.include_router(router=ai_api.dev_router, prefix="/api-python/dev")
+app.include_router(router=api.router, prefix="/api-python")
 
 
 def launch_fastAPI_server():
