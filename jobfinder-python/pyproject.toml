@@ -1,0 +1,23 @@
+[project]
+name = "jobfinder-python"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Nac31", email = "florianbenac46@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[all]>=0.135.1",
+    "langchain>=1.2.10",
+    "langchain-openai>=1.1.10",
+    "langgraph>=1.0.10",
+    "python-dotenv>=1.2.2",
+]
+
+[project.scripts]
+jobfinder-python = "jobfinder_python:main"
+
+[build-system]
+requires = ["uv_build>=0.10.6,<0.11.0"]
+build-backend = "uv_build"
