@@ -7,21 +7,23 @@ class FindJobsDto(BaseModel):
     job_location: str
     applicant_description: str
     cv: UploadFile
+    X: int = 10
 
 class Job(BaseModel):
+    uuid: str
     title: str
     company: str
     description: str
     url: str
     source: str
     location: str | None = None
-    salary: str | None = None
-    posted_date: str | None = None
     company_logo: str | None = None
-    company_url: str | None = None
-    company_description: str | None = None
     extensions: list[str] | None = None
-    raw: Any
+    # raw: Any # to debug
 
 class FindJobsResponse(BaseModel):
     jobs: list[Job]
+
+class BestJobResponse(BaseModel):
+    job: Job
+    reason: str

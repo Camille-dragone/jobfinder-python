@@ -3,6 +3,7 @@ from jobfinder_python.logging.logging import app_logger
 import os
 import requests
 from typing import List, Dict, Any
+import uuid
 
 
 def find_jobs(find_jobs_dto: FindJobsDto):
@@ -11,7 +12,6 @@ def find_jobs(find_jobs_dto: FindJobsDto):
     try:
         # Search jobs with google jobs 
         google_jobs = search_jobs_with_google_jobs(find_jobs_dto)
-        print(google_jobs)
         jobs.extend(google_jobs)
     except Exception as e:
         app_logger.error(f"Error finding jobs: {e}")
@@ -23,7 +23,7 @@ def search_jobs_with_google_jobs(find_jobs_dto: FindJobsDto):
 
     try:
         search_text = f"{find_jobs_dto.job_title} {find_jobs_dto.job_location}"
-        x = 1
+        x = 40
         if not search_text or not search_text.strip():
             raise ValueError("Le paramètre 'text' ne peut pas être vide.")
         if x < 1:
@@ -73,15 +73,17 @@ def search_jobs_with_google_jobs(find_jobs_dto: FindJobsDto):
 
             for job in jobs:
                 job = Job(
+                    uuid=str(uuid.uuid4()),
                     title=job["title"],
                     company=job["company_name"],
                     location=job["location"],
                     source=job["via"],
                     description=job["description"],
                     url=job["share_link"],
-                    company_logo=job["thumbnail"],
-                    extensions=job["extensions"],
-                    raw=job
+                    company_logo=job.get("thumbnail", None),
+                    extensions=job.get("extensions", []),
+                    apply_options=job.get("apply_options", []),
+                    # raw=job
                 )
                 results.append(job)
                 if len(results) >= x:
