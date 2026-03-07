@@ -1,4 +1,4 @@
-from jobfinder_python.api.api_model import FindJobsDto, Job
+from jobfinder_python.api.api_model import FindJobsDto, Job, ApplyOption
 from jobfinder_python.logging.logging import app_logger
 import os
 import requests
@@ -23,7 +23,7 @@ def search_jobs_with_google_jobs(find_jobs_dto: FindJobsDto):
 
     try:
         search_text = f"{find_jobs_dto.job_title} {find_jobs_dto.job_location}"
-        x = 40
+        x = 20
         if not search_text or not search_text.strip():
             raise ValueError("Le paramètre 'text' ne peut pas être vide.")
         if x < 1:
@@ -82,7 +82,7 @@ def search_jobs_with_google_jobs(find_jobs_dto: FindJobsDto):
                     url=job["share_link"],
                     company_logo=job.get("thumbnail", None),
                     extensions=job.get("extensions", []),
-                    apply_options=job.get("apply_options", []),
+                    apply_options=[ApplyOption(title=option["title"], link=option["link"]) for option in job.get("apply_options", [])],
                     # raw=job
                 )
                 results.append(job)

@@ -9,6 +9,10 @@ class FindJobsDto(BaseModel):
     cv: UploadFile
     X: int = 10
 
+class ApplyOption(BaseModel):
+    title: str
+    link: str
+
 class Job(BaseModel):
     uuid: str
     title: str
@@ -19,6 +23,7 @@ class Job(BaseModel):
     location: str | None = None
     company_logo: str | None = None
     extensions: list[str] | None = None
+    apply_options: list[ApplyOption] | None = None
     # raw: Any # to debug
 
 class FindJobsResponse(BaseModel):
