@@ -6,6 +6,9 @@ from fastapi import Form, UploadFile, File
 from typing import List
 from jobfinder_python.ai.graphs.find_X_best_jobs_graph.invokation import invoke_find_x_best_jobs_graph
 from jobfinder_python.service.merge_jobs import merge_best_jobs
+from jobfinder_python.ai.graphs.help_for_apply_graph.invokation import invoke_help_for_apply_graph
+from jobfinder_python.api.api_model import HelpForApplyDto
+from jobfinder_python.ai.graphs.help_for_apply_graph.models import HelpForApplyModel
 
 router = APIRouter(prefix="/jobfinder", tags=["JobFinder"])
 
@@ -36,4 +39,31 @@ async def api_find_jobs(
         return x_best_jobs[:X] if len(x_best_jobs) > X else x_best_jobs
     except Exception as e:
         app_logger.error(f"Error invoking find_x_best_jobs_graph: {e}")
+        raise e
+
+
+@router.post(
+    "/help_for_apply",
+    response_model=HelpForApplyModel,
+)
+async def api_help_for_apply(
+    job_title: str = Form(...),
+    job_description: str = Form(...),
+    job_extensions: list[str] = Form(...),
+    applicant_description: str = Form(...),
+    cv: UploadFile = File(...)
+):
+    app_logger.info(f"API help_for_apply called with job_title: {job_title}, job_description: {job_description}, job_extensions: {job_extensions}, applicant_description: {applicant_description}, cv: {cv.filename}")
+    help_for_apply_dto = HelpForApplyDto(
+        job_title=job_title,
+        job_description=job_description,
+        job_extensions=job_extensions,
+        applicant_description=applicant_description,
+        cv=cv,
+    )
+    try:
+        help_for_apply_response = await invoke_help_for_apply_graph(help_for_apply_dto)
+        return help_for_apply_response.help_for_apply
+    except Exception as e:
+        app_logger.error(f"Error invoking help_for_apply_graph: {e}")
         raise e

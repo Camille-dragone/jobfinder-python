@@ -2,6 +2,13 @@ from pydantic import BaseModel
 from fastapi import UploadFile
 from typing import Any
 
+class HelpForApplyDto(BaseModel):
+    job_title: str
+    job_description: str
+    job_extensions: list[str]
+    applicant_description: str
+    cv: UploadFile
+
 class FindJobsDto(BaseModel):
     job_title: str
     job_location: str
